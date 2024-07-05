@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<section class="text-gray-600 body-font overflow-hidden">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="lg:w-4/5 mx-auto flex flex-wrap">
+     
+          <a class="flex-grow border-b-2 border-gray-500 py-2 text-lg px-1">UPDATE</a>
+          <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">{{ object }}</a>
+          
+        </div>
+     
+       
+        <div class="flex-grow border-b-5 border-gray-300 py-10 text-lg px-5 text-indigo-500">
+          <form 
+          method="POST">
+             {% csrf_token %}
+             {{ form.as_p }}
+        
+          
+          <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Submit</button>
+          <form>
+          
+        </div>
+   
+  </div>
+</section>
+        
+
+    {% endblock content %}

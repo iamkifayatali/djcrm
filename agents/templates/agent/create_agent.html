@@ -1,0 +1,22 @@
+
+        
+{% extends "base.html" %}
+{% block content %}
+
+
+        <p class="leading-relaxed mb-4">Create new agent</p>
+       
+        <div class="flex">
+          <form method="POST">
+             {% csrf_token %}
+             {{ form.as_p }}
+        
+          
+          <button type='submit'>Submit</button>
+          <form>
+          
+        </div>
+
+  
+    
+{% endblock content %}
