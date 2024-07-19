@@ -3,16 +3,29 @@
 {% block content %}
             
 <section class="text-gray-600 body-font">
+ 
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
+      <h1 class="flex ml-10  py-1 px-6 focus:outline-none  rounded">You can create new leads and view all of your leads</h1>
+     <hr>
+    
      {% if request.user.is_organizer %}
+    
      
       <div class="container px-5 py-24 mx-auto flex flex-wrap">
-        <a href="{% url 'create_lead'  %}">Create lead </a>
-     <hr />
+
+        
+      <a href="{% url 'create_lead' %}">
+        <button class="flex ml-10 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create lead</button>
+      </a>
+     <hr>
     </div>
     {% endif %}
-      <div class="flex flex-wrap -m-4">
   
+        <h2 class="ml-10"> Total_leads </h2>
+      
+      <span class="flex ml-10 text-white bg-indigo-500 border-0  hover:bg-indigo-600 rounded">  {{ lead_count }} </span>
+        <div class="flex flex-wrap -m-4">
+
         {% for lead in lead %}
         
         <div class="p-4 lg:w-1/2 md:w-full">
@@ -35,9 +48,14 @@
         </div>
         {% endfor %}
         {% if unassinged_leads.exists %}
-        {% for lead in unassinged_leads %}
-        <h1> unassigned_leads </h1>
+        <hr>
+       
+     <h1 class="ml-"> unassigned_leads </h1>
+
+      
+     {% for lead in unassinged_leads %}
         <div class="p-4 lg:w-1/2 md:w-full">
+       
           <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
             <div class="w-16 h-16 sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
               <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-8 h-8" viewBox="0 0 24 24">
@@ -63,17 +81,6 @@
       
 {% endblock content %}
 
-
-
-<h1>This is lead list</h1>
-
-
-
-<div class="lead">
-
-<a {{ lead.first_name }} </a> {{ lead.last_name}}<br> age : {{ lead.age}}</a> 
-
-</div>
 
        
  

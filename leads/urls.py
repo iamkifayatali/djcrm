@@ -1,5 +1,6 @@
 from django.urls import path
 from .import views
+from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path ('landing' , views.landing.as_view(), name='landing'),
@@ -8,7 +9,14 @@ urlpatterns = [
     path('lead_list/<int:id>',views.lead_detail.as_view(), name='lead_detail'),
     path('Update_lead/<int:id>', views.Update_lead.as_view(), name='update_lead'),
     path('lead_delete/<int:id>', views.lead_delete.as_view(), name='lead_delete'),
-    path('LoggedOut', views.LoggedOutview.as_view(), name="logged_out")
+    path('LoggedOut', views.LoggedOutview.as_view(), name="logged_out"),
+    path('LeadList', views.LeadList.as_view(), name="LeadList"),
+   
+
+
+   
+    
+
    
 
 ]

@@ -8,11 +8,23 @@ from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import AgentModelForm
-from .mixens import OrganisiorAndLoginRequireMixin
+from .mixens import OrganisiorAndLoginRequireMixin 
 import random
 
-class agent_list(OrganisiorAndLoginRequireMixin, generic.ListView):
+class agent_list( OrganisiorAndLoginRequireMixin, generic.ListView):
     template_name='agent/agent_list.html'
+    context_object_name='agent'
+    def get_queryset(self):
+        organisation= self.request.user.id
+        return Agent.objects.filter(organisation=organisation)
+        # our_user = UserProfile.objects.get(user=form.instance.user.id)
+        # organisation = our_user
+        return Agent.objects.filter(organisation=organisation)
+        
+        
+
+class Agentlist(OrganisiorAndLoginRequireMixin, generic.ListView):
+    template_name='agent/agentlist.html'
     context_object_name='agent'
     def get_queryset(self):
         organisation= self.request.user.id
@@ -25,7 +37,7 @@ class AgntCreateView(OrganisiorAndLoginRequireMixin, generic.CreateView):
    template_name='agent/create_agent.html'
    form_class = AgentModelForm
    def get_success_url(self):
-       return reverse("agents:agent_list")
+       return reverse("agents:Agentlist")
    def  form_valid(self, form):
        user = form.save(commit=False)
        user.is_agent = True

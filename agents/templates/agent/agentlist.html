@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+</html>
+<head>
+  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+    
+
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+   
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+</head>
+            
+<section class="text-gray-600 body-font">
+    
+        
+ 
+    <div class="container px-20 py-30 mx-auto flex flex-wrap">
+       
+       <h1>Want to create new agent click button</h1>
+      <a href="{% url 'agents:create_agent' %}">
+        <button class="flex ml-10 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create Agent</button>
+      </a>
+     <hr>
+        </div>
+        <br>
+        <div class="container px-20 py-30 mx-auto flex flex-wrap">
+       --------------------------------------------------------------------------------------------------------------
+
+        </div>
+
+      <div class="container px-20 py-30 mx-auto flex flex-wrap  ">
+
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>email</th>
+                    <th>detail_link</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody>     
+        {% for agent in agent %}
+        
+        <tr>
+            <td>{{agent.user.username}} </td>
+            <td>{{agent.user.email}}</td>
+            <td><a href="{% url 'agents:agent_detail' agent.id %}" >  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ---> </a></td>
+            <td> 26</td>
+            <td>2011-04-25</td>
+            <td>$320,800</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+   
+      </div>
+    </div>
+  </section>
+ </html>
+  <script>
+    $(document).ready( function () {
+      $('#example').DataTable();
+  } );
+  
+  </script>
+      
+{% endblock content %}
+
+
+
+
+
+
+       
+ 

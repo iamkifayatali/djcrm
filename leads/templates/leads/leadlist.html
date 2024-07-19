@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<html>
+<head>
+  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+    
+
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+   
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+</head>
+
+
+
+
+
+<section class="text-gray-600 body-font">
+ 
+    <div class="container px-5 py-24 mx-auto flex flex-wrap">
+      <h1 class="flex ml-10  py-1 px-6 focus:outline-none  rounded">TotalLeads</h1> 
+      <span class="flex ml-10 text-white bg-indigo-500 border-0  hover:bg-indigo-600 rounded">  {{ lead_count }} </span>
+     <hr>
+    
+     {% if request.user.is_organizer %}
+   
+    
+     
+      <div class="container px-5 py-24 mx-auto flex flex-wrap">
+
+        
+      <a href="{% url 'create_lead' %}">
+        <button class="flex ml-10 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create lead</button>
+      </a>
+     <hr>
+    </div>
+    {% endif %}
+  
+        <div class="flex flex-wrap -m-4">
+    
+          <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>first name</th>
+                    <th>last name</th>
+                    <th>detail_link</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody> 
+
+        {% for lead in leads %}
+        <tr>
+          <td>{{lead.first_name}} </td>
+          <td>{{lead.last_name}}</td>
+          <td><a href="{% url 'lead_detail' lead.id %}">   ---> </a></td>
+          <td>{{ lead.age }}</td>
+          <td>2011-04-25</td>
+          <td>$320,800</td>
+      </tr>
+        
+        
+        {% endfor %}
+      </tbody>
+  </table>
+     
+      </div>
+    </div>
+  </section>
+  </html>
+
+  <script>
+    $(document).ready( function () {
+      $('#example').DataTable();
+  } );
+  
+  </script>
+  {% endblock content %}    
+
+
+
+       
+ 

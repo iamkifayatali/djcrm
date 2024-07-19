@@ -5,7 +5,7 @@
 first step select all
 
 ```sh
-git add . 
+git add . `
 ```
 
 or for add any specific file write 

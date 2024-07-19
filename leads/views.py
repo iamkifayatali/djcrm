@@ -1,4 +1,4 @@
-from django.shortcuts import render , reverse , redirect
+from django.shortcuts import render , reverse , redirect , HttpResponseRedirect
 from django.http import HttpResponse
 from .models import Lead
 from django.views import generic
@@ -11,6 +11,16 @@ from agents.mixens import OrganisiorAndLoginRequireMixin
 from django.contrib.auth.views import  LogoutView
 from django.contrib import messages
 from django.contrib.auth import logout as auth_logout
+
+
+from django.contrib.auth.views import LoginView
+
+
+class CustomLoginView(LoginView):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')  # Redirect to the homepage
+        return super().get(request, *args, **kwargs)
 
 
 class CustomLogoutView(LogoutView):
@@ -27,9 +37,27 @@ class CustomLogoutView(LogoutView):
 class LoggedOutview(generic.TemplateView):
     template_name="leads/logged_out.html"
 
+
+
 class SignUpView(generic.CreateView):
     template_name="registration/signup.html"
     form_class =CustomUserCreationForm
+
+    def get(self, request, *args, **kwargs ):
+        # print(request.user)
+        # print(request.user.id)
+        # print(reverse("lead_list"))
+        if request.user.id:
+         
+           return redirect( reverse("lead_list"))
+        else:
+           
+            return super().get(self, request, *args, **kwargs)
+            
+          
+    
+    
+            
 
     def get_success_url(self):
         return reverse ("login")
@@ -41,7 +69,7 @@ class Create_lead(OrganisiorAndLoginRequireMixin,generic.CreateView):
    model= Lead
    fields= '__all__' 
    template_name='leads/create_lead.html'
-   success_url = ('/lead_list')
+   success_url = ('/LeadList')
   
 class lead_list(LoginRequiredMixin, generic.ListView):
     template_name="leads/lead_list.html"
@@ -121,7 +149,6 @@ class lead_delete(OrganisiorAndLoginRequireMixin,generic.DeleteView):
 #creating my own form
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
-from django.urls import reverse_lazy
 
 class ChangePasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
@@ -129,7 +156,38 @@ class ChangePasswordView(PasswordChangeView):
     template_name = 'leads/change_password.html'
 
 
+class  LeadList(generic.TemplateView):
+    template_name="leads/leadlist.html"
+    # context_object_name='lead'
+    def get_queryset(self):
+        user=self.request.user
+        if user.is_organizer:
+            queryset = Lead.objects.filter(organisation=user.userprofile , agent__isnull=False)
+        else:
+            queryset = Lead.objects.filter(organisation=user.agent.organisation, agent__isnull=False)
+            queryset = queryset.filter(agent__user=user)
+        return queryset
+    def get_context_data(self , **kwargs):
+        user=self.request.user
+        context = super(LeadList, self).get_context_data(**kwargs)
+        if user.is_organizer:
+            queryset = Lead.objects.filter(
+                organisation=user.userprofile,
+                  agent__isnull=True)
+        context.update(
+            {
+                "unassinged_leads":queryset
+            }
+        )
+        context['leads'] = self.get_queryset()
+
+        return context
 
 
-
+    def lead_list(request):
+        leads = leads.objects.all()
+        context ={
+            "leads": leads
+        }
+        return render(request,"leads/leadlist.html", context)
 

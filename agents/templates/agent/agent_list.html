@@ -7,8 +7,13 @@
         <h1> This is agent list</h1>
     </div>
     <div class="container px-20 py-30 mx-auto flex flex-wrap">
-         <a href="{% url 'agents:create_agent'  %}">Create Agent </a>
-     <hr />
+       
+
+            
+      <a href="{% url 'agents:create_agent' %}">
+        <button class="flex ml-10 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create Agent</button>
+      </a>
+     <hr>
       <div class="flex flex-wrap -m-4">
         {% for agent in agent %}
         
